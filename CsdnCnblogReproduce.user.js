@@ -13,6 +13,7 @@
 // @require      https://unpkg.com/turndown/dist/turndown.js
 // @grant    GM_addStyle
 // @namespace https://greasyfork.org/users/164689
+// @supportURL   https://github.com/JackieZheng/CsdnCnblogReproduce/issues/
 // ==/UserScript==
 
 GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: auto;background: #0f962191;z-index: 99;color: white;text-align: center;margin: 5px;padding: 5px;border-radius: 5px;cursor: pointer;}"); 
