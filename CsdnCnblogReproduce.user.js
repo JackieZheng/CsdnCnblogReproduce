@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         CSDN,CNBLOG博客文章一键转载插件 
-// @version      2.54
+// @version      2.55
 // @description  CSDN博客文章转载插件 可以实现CSDN上的文章一键转载
 // @author       By Jackie http://csdn.admans.cn/
 // @match        *://blog.csdn.net/*/article/details/*
@@ -10,6 +10,7 @@
 // @match        *://www.cnblogs.com/*/archive/*/*/*/*.html
 // @match        *://i.cnblogs.com/EditArticles.aspx?opt=1
 // @match        *://i.cnblogs.com/EditPosts.aspx?opt=1
+// @match        *://i-beta.cnblogs.com/posts/edit
 // @require      https://unpkg.com/turndown/dist/turndown.js
 // @grant    GM_addStyle
 // @namespace https://greasyfork.org/users/164689
@@ -63,12 +64,24 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                                            +"<br>原文："+window.opener.location.href 
                                            +"<br>版权声明：本文为作者原创文章，转载请附上博文链接！"
                                            +"<br>内容解析By：<a href=https://greasyfork.org/zh-CN/scripts/381053-csdn-cnblog%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E4%B8%80%E9%94%AE%E8%BD%AC%E8%BD%BD%E6%8F%92%E4%BB%B6 target=_blank>CSDN,CNBLOG博客文章一键转载插件</a>";
-                          (document.getElementById('txtTitle')||document.getElementById('Editor_Edit_txbTitle')).value="[转]"+window.opener.document.title.split('-')[0];
+                          var input_title=(document.getElementById('txtTitle')||document.getElementById('Editor_Edit_txbTitle')||document.querySelector('input.cnb-input'));
+                          if(input_title)
+                          {
+                              var aTitle="[转]"+window.opener.document.title.split('-')[0];
+                              if(cnblog){aTitle=aTitle+"(转载请删除括号里的内容)";}
+                              input_title.value=aTitle;
+                          }
+
+                           
+                            
+                            
                             //(cnblog?window.opener.document.title:window.opener.document.getElementsByClassName('title-article')[0].innerText);
                           //清除代码前的多余行号
                           if(contentDocumentbody)
                           {
-                            contentDocumentbody.innerHTML=blogContent.replace(/<ul class=\"pre-numbering\"[\s\S].*<\/ul>/g,'').replace(/<div class=\"cnblogs_code_toolbar\"[\s\S].*<\/div>/g,'').replace(/<a[\s\S].*class=\"toolbar_item[\s\S].*>?<\/a>/g,'');                          
+                            var aContent=blogContent.replace(/<ul class=\"pre-numbering\"[\s\S].*<\/ul>/g,'').replace(/<div class=\"cnblogs_code_toolbar\"[\s\S].*<\/div>/g,'').replace(/<a[\s\S].*class=\"toolbar_item[\s\S].*>?<\/a>/g,'');      
+                            if(cnblog){aContent="(转载请删除括号里的内容)"+aContent;}
+                            contentDocumentbody.innerHTML=aContent;                   
                             if(contentDocumentbody.children.ReadBtn)contentDocumentbody.children.ReadBtn.remove();
                             if(contentDocumentbody.children.ReproduceBtn)contentDocumentbody.children.ReproduceBtn.remove();
                           }
@@ -89,7 +102,7 @@ if(document.getElementById('origin-link'))document.getElementById("origin-link")
                             var mdContent = turndownService.turndown(htmlContent);
                             cnblogsMDeditor.value=mdContent;
                           }
-                        }},1000);                  
+                        }},2000);                  
                  
                 }
             }         
