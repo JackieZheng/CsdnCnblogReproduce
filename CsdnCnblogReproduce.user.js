@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         CSDN,CNBLOG博客文章一键转载插件 
-// @version      2.55
+// @version      2.56
 // @description  CSDN博客文章转载插件 可以实现CSDN上的文章一键转载
 // @author       By Jackie http://csdn.admans.cn/
 // @match        *://blog.csdn.net/*/article/details/*
@@ -79,7 +79,7 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                           //清除代码前的多余行号
                           if(contentDocumentbody)
                           {
-                            var aContent=blogContent.replace(/<ul class=\"pre-numbering\"[\s\S].*<\/ul>/g,'').replace(/<div class=\"cnblogs_code_toolbar\"[\s\S].*<\/div>/g,'').replace(/<a[\s\S].*class=\"toolbar_item[\s\S].*>?<\/a>/g,'');      
+                            var aContent=blogContent.replace(/<ul class=\"pre-numbering\"[\s\S].*?<\/ul>/g,'').replace(/<div class=\"cnblogs_code_toolbar\"[\s\S].*?<\/div>/g,'').replace(/<a[\s\S].*class=\"toolbar_item[\s\S].*>?<\/a>/g,'');      
                             if(cnblog){aContent="(转载请删除括号里的内容)"+aContent;}
                             contentDocumentbody.innerHTML=aContent;                   
                             if(contentDocumentbody.children.ReadBtn)contentDocumentbody.children.ReadBtn.remove();
@@ -93,11 +93,11 @@ if(document.getElementById('origin-link'))document.getElementById("origin-link")
                           if(cnblogsMDeditor)
                           {
                             var htmlContent=blogContent.replace(/<ul class=\"pre-numbering\"[\s\S].*<\/ul>/g,'');
-                            htmlContent=htmlContent.replace(/<div class=\"cnblogs_code_toolbar\"[\s\S].*<\/div>/g,'');
+                            htmlContent=htmlContent.replace(/<div class=\"cnblogs_code_toolbar\"[\s\S].*?<\/div>/g,'');
                             htmlContent=htmlContent.replace(/<a[\s\S].*class=\"toolbar_item[\s\S].*>?<\/a>/g,'');
-                            htmlContent=htmlContent.replace(/<div id=\"ReproduceBtn\"[\s\S].*<\/div>/g,'');
-                            htmlContent=htmlContent.replace(/<div id=\"ReadBtn\"[\s\S].*<\/div>/g,'');
-                            htmlContent=htmlContent.replace(/<div class=\"line[\s\S].*>\d+<\/div>/g,'');
+                            htmlContent=htmlContent.replace(/<div id=\"ReproduceBtn\"[\s\S].*?<\/div>/g,'');
+                            htmlContent=htmlContent.replace(/<div id=\"ReadBtn\"[\s\S].*?<\/div>/g,'');
+                            htmlContent=htmlContent.replace(/<div class=\"line[\s\S].*>\d+?<\/div>/g,'');
                             var turndownService = new TurndownService();
                             var mdContent = turndownService.turndown(htmlContent);
                             cnblogsMDeditor.value=mdContent;
