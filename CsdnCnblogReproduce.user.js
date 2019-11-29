@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         CSDN,CNBLOG博客文章一键转载插件 
-// @version      2.57
+// @version      2.58
 // @description  CSDN博客文章转载插件 可以实现CSDN上的文章一键转载
 // @author       By Jackie http://csdn.admans.cn/
 // @match        *://blog.csdn.net/*/article/details/*
@@ -58,7 +58,7 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                         {
                           var contentDocumentbody=document.getElementsByTagName("iframe")[0]==undefined?null:document.getElementsByTagName("iframe")[0].contentDocument.body;
                           var authorName="";
-                          if(window.opener.document.getElementsByClassName('follow-nickName').lenght>0){authorName=window.opener.document.getElementsByClassName('follow-nickName')[0].innerText;}
+                          if(window.opener.document.getElementsByClassName('follow-nickName').length>0){authorName=window.opener.document.getElementsByClassName('follow-nickName')[0].innerText;}
                           else if(window.opener.document.getElementById('profile_block')){authorName=window.opener.document.getElementById('profile_block').childNodes[1].innerText;}
                           else if(window.opener.document.getElementById('author_profile_detail')){authorName=window.opener.document.getElementById('author_profile_detail').childNodes[1].innerText;}
                           var blogContent=(window.opener.document.getElementById('content_views')||window.opener.document.getElementById('cnblogs_post_body')).innerHTML
