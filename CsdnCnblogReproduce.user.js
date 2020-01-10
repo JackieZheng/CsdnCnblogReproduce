@@ -1,16 +1,17 @@
 // ==UserScript==
 // @name         CSDN,CNBLOG博客文章一键转载插件 
-// @version      2.60
+// @version      2.70
 // @description  CSDN博客文章转载插件 可以实现CSDN上的文章一键转载
 // @author       By Jackie http://csdn.admans.cn/
 // @match        *://blog.csdn.net/*/article/details/*
 // @match        *://mp.csdn.net/postedit*
+// @match        *://mp.csdn.net/postedit?opt=1
 // @match        *://www.cnblogs.com/*/p/*.html
 // @match        *://www.cnblogs.com/*/articles/*.html
 // @match        *://www.cnblogs.com/*/archive/*/*/*/*.html
 // @match        *://i.cnblogs.com/EditArticles.aspx?opt=1
 // @match        *://i.cnblogs.com/EditPosts.aspx?opt=1
-// @match        *://i-beta.cnblogs.com/posts/edit
+// @match        *://i-beta.cnblogs.com/posts/edit?opt=1
 // @require      https://unpkg.com/turndown/dist/turndown.js
 // @grant    GM_addStyle
 // @namespace https://greasyfork.org/users/164689
@@ -42,7 +43,7 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
               }
               var article=document.getElementsByClassName('article_content')[0]||document.getElementsByClassName('postBody')[0]||document.getElementsByClassName('blogpost-body')[0];
               article.insertBefore(divBtn,article.childNodes[0]); 
-              var posteditUrl=cnblog?"https://i.cnblogs.com/EditPosts.aspx?opt=1":"https://mp.csdn.net/postedit";
+              var posteditUrl=cnblog?"https://i-beta.cnblogs.com/posts/edit?opt=1":"https://mp.csdn.net/postedit?opt=1";
 
               divBtn.onclick=function()
               {
@@ -54,7 +55,7 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
          document.onreadystatechange = function(e){
                 if(document.readyState == 'complete') {
                   setTimeout(function(){                 
-                      if(window.opener)
+                      if(window.opener&&location.href.indexOf("?opt=1") > -1)
                         {
                           var contentDocumentbody=document.getElementsByTagName("iframe")[0]==undefined?null:document.getElementsByTagName("iframe")[0].contentDocument.body;
                           var authorName="";
@@ -76,23 +77,35 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                               input_title.value=aTitle;
                           }
 
-                           
-                            
-                            
-                            //(cnblog?window.opener.document.title:window.opener.document.getElementsByClassName('title-article')[0].innerText);
-                          //清除代码前的多余行号
                           if(contentDocumentbody)
                           {
-                            var aContent=blogContent.replace(/<ul class=\"pre-numbering\"[\s\S].*?<\/ul>/g,'').replace(/<div class=\"cnblogs_code_toolbar\"[\s\S].*?<\/div>/g,'').replace(/<a[\s\S].*class=\"toolbar_item[\s\S].*>?<\/a>/g,'');      
+                            var aContent=blogContent.replace(/<ul class=\"pre-numbering\"[\s\S].*?<\/ul>/g,'')
+                                                    .replace(/<div class=\"hljs-ln-line hljs-ln-n\"[^>]*>(.*?)<\/div>/g,'')
+                                                    .replace(/<div class=\"hljs-ln-numbers\"[^>]*>(.*?)<\/div>/g,'')
+                                                    .replace(/<div class=\"cnblogs_code_toolbar\"[\s\S].*?<\/div>/g,'')
+                                                    .replace(/<a[\s\S].*class=\"toolbar_item[\s\S].*>?<\/a>/g,'');      
                             if(cnblog){aContent="(转载请删除括号里的内容)"+aContent;}
+                            else{                              
+                              var rePre = /<pre[^>]*>(.*?)<\/pre>/gi;
+                              var arrMactches = aContent.match(rePre)
+                              if(arrMactches!=null&&arrMactches.length>0)
+                              {
+                                  for (var i=0;i < arrMactches.length ; i++)
+                                  {
+                                    var preText=window.opener.document.getElementsByTagName('pre')[i].innerText;
+                                    var preCodeHtml="<div tabindex=\"-1\" contenteditable=\"false\" data-cke-widget-wrapper=\"1\" data-cke-filter=\"off\" class=\"cke_widget_wrapper cke_widget_block cke_widget_codeSnippet cke_widget_wrapper_has\" data-cke-display-name=\"代码段\" data-cke-widget-id=\"1\" role=\"region\" aria-label=\"代码段 小部件\"><pre data-cke-widget-keep-attr=\"0\" data-widget=\"codeSnippet\" class=\"cke_widget_element has\" data-cke-widget-data=\"\"><code class=\"hljs\">"+preText+"</code></pre></div>";
+                                    aContent=aContent.replace(arrMactches[i],preCodeHtml);
+                                  }
+                              }
+                            }
                             contentDocumentbody.innerHTML=aContent;                   
                             if(contentDocumentbody.children.ReadBtn)contentDocumentbody.children.ReadBtn.remove();
                             if(contentDocumentbody.children.ReproduceBtn)contentDocumentbody.children.ReproduceBtn.remove();
                           }
                           if(document.getElementById("selType"))document.getElementById("selType").value="2";
                           //转载地址
-                                                                                  if(document.getElementById('articleInput'))document.getElementById('articleInput').value=window.opener.location.href ;
-if(document.getElementById('origin-link'))document.getElementById("origin-link").checked=true;
+                          if(document.getElementById('articleInput'))document.getElementById('articleInput').value=window.opener.location.href ;
+                          if(document.getElementById('origin-link'))document.getElementById("origin-link").checked=true;
                           var cnblogsMDeditor=document.getElementById("Editor_Edit_EditorBody");
                           if(cnblogsMDeditor)
                           {
