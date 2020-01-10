@@ -79,26 +79,27 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
 
                           if(contentDocumentbody)
                           {
-                            var aContent=blogContent.replace(/<ul class=\"pre-numbering\"[\s\S].*?<\/ul>/g,'')
+                            var aContent=blogContent.replace(/<ul class=\"pre-numbering\"[^>]*>(.*?)<\/ul>/g,'')
                                                     .replace(/<div class=\"hljs-ln-line hljs-ln-n\"[^>]*>(.*?)<\/div>/g,'')
                                                     .replace(/<div class=\"hljs-ln-numbers\"[^>]*>(.*?)<\/div>/g,'')
                                                     .replace(/<div class=\"cnblogs_code_toolbar\"[\s\S].*?<\/div>/g,'')
-                                                    .replace(/<a[\s\S].*class=\"toolbar_item[\s\S].*>?<\/a>/g,'');      
+                                                    .replace(/<a[\s\S].*class=\"toolbar_item[\s\S].*>?<\/a>/g,'').replace(/\n/g,'');      
                             if(cnblog){aContent="(转载请删除括号里的内容)"+aContent;}
                             else{                              
                               var rePre = /<pre[^>]*>(.*?)<\/pre>/gi;
+                              //aContent=aContent.replace(/\n/g,'');
                               var arrMactches = aContent.match(rePre)
                               if(arrMactches!=null&&arrMactches.length>0)
                               {
                                   for (var i=0;i < arrMactches.length ; i++)
                                   {
-                                    var preText=window.opener.document.getElementsByTagName('pre')[i].innerText;
-                                    var preCodeHtml="<div tabindex=\"-1\" contenteditable=\"false\" data-cke-widget-wrapper=\"1\" data-cke-filter=\"off\" class=\"cke_widget_wrapper cke_widget_block cke_widget_codeSnippet cke_widget_wrapper_has\" data-cke-display-name=\"代码段\" data-cke-widget-id=\"1\" role=\"region\" aria-label=\"代码段 小部件\"><pre data-cke-widget-keep-attr=\"0\" data-widget=\"codeSnippet\" class=\"cke_widget_element has\" data-cke-widget-data=\"\"><code class=\"hljs\">"+preText+"</code></pre></div>";
+                                    var preText=window.opener.document.getElementsByTagName('code')[i].innerHTML;//.replace(/(^\d+$)/g,'');
+                                    var preCodeHtml="<div tabindex=\"-1\" contenteditable=\"false\" data-cke-widget-wrapper=\"1\" data-cke-filter=\"off\" class=\"cke_widget_wrapper cke_widget_block cke_widget_codeSnippet cke_widget_wrapper_has\" data-cke-display-name=\"\" data-cke-widget-id=\"1\" role=\"region\" aria-label=\"\"><pre data-cke-widget-keep-attr=\"0\" data-widget=\"codeSnippet\" class=\"cke_widget_element has\" data-cke-widget-data=\"\"><code class=\"hljs\">"+preText+"</code></pre></div>";
                                     aContent=aContent.replace(arrMactches[i],preCodeHtml);
                                   }
                               }
                             }
-                            contentDocumentbody.innerHTML=aContent;                   
+                            contentDocumentbody.innerHTML=aContent;   
                             if(contentDocumentbody.children.ReadBtn)contentDocumentbody.children.ReadBtn.remove();
                             if(contentDocumentbody.children.ReproduceBtn)contentDocumentbody.children.ReproduceBtn.remove();
                           }
