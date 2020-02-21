@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         CSDN,CNBLOG博客文章一键转载插件 
-// @version      2.70
+// @version      2.80
 // @description  CSDN博客文章转载插件 可以实现CSDN上的文章一键转载
 // @author       By Jackie http://csdn.admans.cn/
 // @match        *://blog.csdn.net/*/article/details/*
 // @match        *://mp.csdn.net/postedit*
 // @match        *://mp.csdn.net/postedit?opt=1
+// @match        *://mp.csdn.net/console/editor/html?opt=1
 // @match        *://www.cnblogs.com/*/p/*.html
 // @match        *://www.cnblogs.com/*/articles/*.html
 // @match        *://www.cnblogs.com/*/archive/*/*/*/*.html
@@ -43,7 +44,7 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
               }
               var article=document.getElementsByClassName('article_content')[0]||document.getElementsByClassName('postBody')[0]||document.getElementsByClassName('blogpost-body')[0];
               article.insertBefore(divBtn,article.childNodes[0]); 
-              var posteditUrl=cnblog?"https://i-beta.cnblogs.com/posts/edit?opt=1":"https://mp.csdn.net/postedit?opt=1";
+              var posteditUrl=cnblog?"https://i-beta.cnblogs.com/posts/edit?opt=1":"https://mp.csdn.net/console/editor/html?opt=1";
 
               divBtn.onclick=function()
               {
@@ -72,7 +73,7 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                           var input_title=(document.getElementById('txtTitle')||document.getElementById('Editor_Edit_txbTitle')||document.querySelector('input.cnb-input'));
                           if(input_title)
                           {
-                              var aTitle="[转]"+window.opener.document.title.split('-')[0];
+                              var aTitle="[转]"+window.opener.document.title.split('_')[0];
                               if(cnblog){aTitle=aTitle+"(转载请删除括号里的内容)";}
                               input_title.value=aTitle;
                           }
@@ -103,7 +104,8 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                             if(contentDocumentbody.children.ReadBtn)contentDocumentbody.children.ReadBtn.remove();
                             if(contentDocumentbody.children.ReproduceBtn)contentDocumentbody.children.ReproduceBtn.remove();
                           }
-                          if(document.getElementById("selType"))document.getElementById("selType").value="2";
+                          //if(document.getElementById("selType"))document.getElementById("selType").value="2";
+                          if(document.getElementsByClassName("textfield"))document.getElementsByClassName("textfield").value="repost";
                           //转载地址
                           if(document.getElementById('articleInput'))document.getElementById('articleInput').value=window.opener.location.href ;
                           if(document.getElementById('origin-link'))document.getElementById("origin-link").checked=true;
