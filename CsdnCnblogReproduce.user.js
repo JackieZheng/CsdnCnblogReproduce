@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         CSDN,CNBLOG博客文章一键转载插件 
-// @version      2.80
+// @version      3.00
 // @description  CSDN博客文章转载插件 可以实现CSDN上的文章一键转载
 // @author       By Jackie http://csdn.admans.cn/
 // @match        *://blog.csdn.net/*/article/details/*
@@ -74,7 +74,7 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                           if(input_title)
                           {
                               var aTitle="[转]"+window.opener.document.title.split('_')[0];
-                              if(cnblog){aTitle=aTitle+"(转载请删除括号里的内容)";}
+                              aTitle=aTitle+"(转载请删除括号里的内容)";                            	
                               input_title.value=aTitle;
                           }
 
@@ -86,18 +86,26 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                                                     .replace(/<div class=\"cnblogs_code_toolbar\"[\s\S].*?<\/div>/g,'')
                                                     .replace(/<a[\s\S].*class=\"toolbar_item[\s\S].*>?<\/a>/g,'').replace(/\n/g,'');      
                             if(cnblog){aContent="(转载请删除括号里的内容)"+aContent;}
-                            else{                              
+                            else{    
+                              /*处理csdn代码*/
                               var rePre = /<pre[^>]*>(.*?)<\/pre>/gi;
                               //aContent=aContent.replace(/\n/g,'');
                               var arrMactches = aContent.match(rePre)
                               if(arrMactches!=null&&arrMactches.length>0)
                               {
-                                  for (var i=0;i < arrMactches.length ; i++)
-                                  {
-                                    var preText=window.opener.document.getElementsByTagName('code')[i].innerHTML;//.replace(/(^\d+$)/g,'');
-                                    var preCodeHtml="<div tabindex=\"-1\" contenteditable=\"false\" data-cke-widget-wrapper=\"1\" data-cke-filter=\"off\" class=\"cke_widget_wrapper cke_widget_block cke_widget_codeSnippet cke_widget_wrapper_has\" data-cke-display-name=\"\" data-cke-widget-id=\"1\" role=\"region\" aria-label=\"\"><pre data-cke-widget-keep-attr=\"0\" data-widget=\"codeSnippet\" class=\"cke_widget_element has\" data-cke-widget-data=\"\"><code class=\"hljs\">"+preText+"</code></pre></div>";
+                                   
+                                  for (var i=0;i <arrMactches.length; i++)
+                                  {                                    
+                                    var preText='';
+                                    var eles =window.opener.document.getElementsByTagName('code')[i].getElementsByTagName('li');
+                                        for (var j = 0; j < eles.length; j++) {
+                                                preText+= eles[j].innerText;
+                                        }
+                                    var preCodeHtml="<pre><code class=\"hljs\">"+preText+"</code></pre>";
+                                   
                                     aContent=aContent.replace(arrMactches[i],preCodeHtml);
                                   }
+                                
                               }
                             }
                             contentDocumentbody.innerHTML=aContent;   
@@ -105,7 +113,7 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                             if(contentDocumentbody.children.ReproduceBtn)contentDocumentbody.children.ReproduceBtn.remove();
                           }
                           //if(document.getElementById("selType"))document.getElementById("selType").value="2";
-                          if(document.getElementsByClassName("textfield"))document.getElementsByClassName("textfield").value="repost";
+                         if(document.getElementsByClassName("textfield"))document.getElementsByClassName("textfield")[0].options[2].selected = true;
                           //转载地址
                           if(document.getElementById('articleInput'))document.getElementById('articleInput').value=window.opener.location.href ;
                           if(document.getElementById('origin-link'))document.getElementById("origin-link").checked=true;
@@ -122,7 +130,8 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                             var mdContent = turndownService.turndown(htmlContent);
                             cnblogsMDeditor.value=mdContent;
                           }
-                        }},2000);                  
+                          
+                        }},3000);                  
                  
                 }
             }         
@@ -130,3 +139,5 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
       } 
         
     })();
+ 
+
