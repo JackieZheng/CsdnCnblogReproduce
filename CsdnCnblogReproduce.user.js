@@ -78,26 +78,25 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                                 if (arrMactches != null && arrMactches.length > 0) {
 
                                     for (var i = 0; i < arrMactches.length; i++) {
-                                        
-                                      var preText = '';
-                                      var codeTag=window.opener.document.getElementsByTagName('pre')[i];
-                                      if(codeTag){
-                                          var eles =codeTag.getElementsByTagName('li');
-                                          if(eles.length>0){
-                                              for (var j = 0; j < eles.length; j++) {
-                                                preText += eles[j].innerText;
-                                              }
-                                          }
-                                          else{
-                                              preText += codeTag.innerText;
-                                          }
-                                           
-                                          var preCodeHtml = "<pre><code class=\"hljs\">" + preText.replace(/</g,'&lt;').replace(/>/g,'&gt;') + "</code></pre>";
 
-                                          aContent = aContent.replace(arrMactches[i], preCodeHtml);
-                                      }
-                                        
-                                   }
+                                        var preText = '';
+                                        var codeTag = window.opener.document.getElementsByTagName('pre')[i];
+                                        if (codeTag) {
+                                            var eles = codeTag.getElementsByTagName('li');
+                                            if (eles.length > 0) {
+                                                for (var j = 0; j < eles.length; j++) {
+                                                    preText += eles[j].innerText;
+                                                }
+                                            } else {
+                                                preText += codeTag.innerText;
+                                            }
+
+                                            var preCodeHtml = "<pre><code class=\"hljs\">" + preText.replace(/</g, '&lt;').replace(/>/g, '&gt;') + "</code></pre>";
+
+                                            aContent = aContent.replace(arrMactches[i], preCodeHtml);
+                                        }
+
+                                    }
 
                                 }
                             }
@@ -110,6 +109,7 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                         //转载地址
                         if (document.getElementById('articleInput')) document.getElementById('articleInput').value = window.opener.location.href;
                         if (document.getElementById('origin-link')) document.getElementById("origin-link").checked = true;
+
                         var cnblogsMDeditor = document.getElementById("Editor_Edit_EditorBody");
                         if (cnblogsMDeditor) {
                             var htmlContent = blogContent.replace(/<ul class=\"pre-numbering\"[\s\S].*<\/ul>/g, '');
@@ -121,6 +121,14 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                             var turndownService = new TurndownService();
                             var mdContent = turndownService.turndown(htmlContent);
                             cnblogsMDeditor.value = mdContent;
+                        } else {
+                            if (input_title) {
+                                input_title.onchange = function() {
+                                    if (document.getElementsByClassName("textfield")) document.getElementsByClassName("textfield")[0].options[2].selected = true;
+                                    if (document.getElementById('articleInput')) document.getElementById('articleInput').value = window.opener.location.href;
+                                    if (document.getElementById('origin-link')) document.getElementById("origin-link").checked = true;
+                                }
+                            }
                         }
 
                     }
