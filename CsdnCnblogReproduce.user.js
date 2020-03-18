@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         CSDN,CNBLOG博客文章一键转载插件 
-// @version      3.02
+// @version      3.03
 // @description  CSDN博客文章转载插件 可以实现CSDN上的文章一键转载
 // @author       By Jackie http://csdn.admans.cn/
 // @match        *://blog.csdn.net/*/article/details/*
@@ -81,7 +81,11 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
 
                                         var preText = '';
                                         var codeTag = window.opener.document.getElementsByTagName('pre')[i];
-                                        if (codeTag) {
+                                        
+                                        if(codeTag){  
+                                            if(codeTag.querySelector("ul[class*='pre-numbering']")){
+                                             codeTag.querySelector("ul[class*='pre-numbering']").remove();
+                                            }
                                             var eles = codeTag.getElementsByTagName('li');
                                             if (eles.length > 0) {
                                                 for (var j = 0; j < eles.length; j++) {
@@ -90,11 +94,11 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                                             } else {
                                                 preText += codeTag.innerText;
                                             }
-
-                                            var preCodeHtml = "<pre><code class=\"hljs\">" + preText.replace(/</g, '&lt;').replace(/>/g, '&gt;') + "</code></pre>";
-
-                                            aContent = aContent.replace(arrMactches[i], preCodeHtml);
                                         }
+                                        var preCodeHtml = "<pre><code class=\"hljs\">" + preText.replace(/</g, '&lt;').replace(/>/g, '&gt;') + "</code></pre>";
+
+                                        aContent = aContent.replace(arrMactches[i], preCodeHtml);
+                                        
 
                                     }
 
@@ -105,10 +109,14 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                             if (contentDocumentbody.children.ReproduceBtn) contentDocumentbody.children.ReproduceBtn.remove();
                         }
                         //if(document.getElementById("selType"))document.getElementById("selType").value="2";
-                        if (document.getElementsByClassName("textfield")) document.getElementsByClassName("textfield")[0].options[2].selected = true;
-                        //转载地址
-                        if (document.getElementById('articleInput')) document.getElementById('articleInput').value = window.opener.location.href;
-                        if (document.getElementById('origin-link')) document.getElementById("origin-link").checked = true;
+                         if (document.getElementsByClassName("textfield")) document.getElementsByClassName("textfield")[0].options[2].selected = true;
+                         if (document.querySelector("[class^='ipt-box']")) document.querySelector("[class^='ipt-box']").querySelector("[class^='el-input__inner']").value = window.opener.location.href.split('?')[0];
+                         if (document.querySelector("[class^='el-checkbox__original']")) document.querySelector("[class^='el-checkbox__original']").checked = true;
+                         if(document.querySelectorAll("[class*='copyright-box']"))
+                         {
+                           document.querySelectorAll("[class*='copyright-box']")[0].style.display="";
+                           document.querySelectorAll("[class*='copyright-box']")[1].style.display="";
+                         }
 
                         var cnblogsMDeditor = document.getElementById("Editor_Edit_EditorBody");
                         if (cnblogsMDeditor) {
@@ -125,8 +133,13 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                             if (input_title) {
                                 input_title.onchange = function() {
                                     if (document.getElementsByClassName("textfield")) document.getElementsByClassName("textfield")[0].options[2].selected = true;
-                                    if (document.getElementById('articleInput')) document.getElementById('articleInput').value = window.opener.location.href;
-                                    if (document.getElementById('origin-link')) document.getElementById("origin-link").checked = true;
+                                    if (document.querySelector("[class^='ipt-box']")) document.querySelector("[class^='ipt-box']").querySelector("[class^='el-input__inner']").value = window.opener.location.href.split('?')[0];
+                                    if (document.querySelector("[class^='el-checkbox__original']")) document.querySelector("[class^='el-checkbox__original']").checked = true;
+                                    if(document.querySelectorAll("[class*='copyright-box']"))
+                                    {
+                                      document.querySelectorAll("[class*='copyright-box']")[0].style.display="";
+                                      document.querySelectorAll("[class*='copyright-box']")[1].style.display="";
+                                    }
                                 }
                             }
                         }
