@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         CSDN,CNBLOG博客文章一键转载插件 
-// @version      3.03
+// @version      3.10
 // @description  CSDN博客文章转载插件 可以实现CSDN上的文章一键转载
 // @author       By Jackie http://csdn.admans.cn/
 // @match        *://blog.csdn.net/*/article/details/*
@@ -67,7 +67,7 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                         }
 
                         if (contentDocumentbody) {
-                            var aContent = blogContent.replace(/<ul class=\"pre-numbering\"[^>]*>(.*?)<\/ul>/g, '').replace(/<div class=\"hljs-ln-line hljs-ln-n\"[^>]*>(.*?)<\/div>/g, '').replace(/<div class=\"hljs-ln-numbers\"[^>]*>(.*?)<\/div>/g, '').replace(/<div class=\"cnblogs_code_toolbar\"[\s\S].*?<\/div>/g, '').replace(/<a[\s\S].*class=\"toolbar_item[\s\S].*>?<\/a>/g, '').replace(/\n/g, '');
+                            var aContent = blogContent.replace(/<ul class=\"pre-numbering\"[^>]*>(.*?)<\/ul>/g, '').replace(/<div class=\"hljs-ln-line hljs-ln-n\"[^>]*>(.*?)<\/div>/g, '').replace(/<div class=\"hljs-ln-numbers\"[^>]*>(.*?)<\/div>/g, '').replace(/<div class=\"cnblogs_code_toolbar\"[\s\S].*?<\/div>/g, '').replace(/<a[\s\S].*class=\"toolbar_item[\s\S].*>?<\/a>/g, '').replace(/\n/g, '').replace(/<nobr aria-hidden=\"true\">(.*?)<\/nobr>/g, '').replace(/<script type=\"math\/tex\"[^>]*>(.*?)<\/script>/g, '');
                             if (cnblog) {
                                 aContent = "(转载请删除括号里的内容)" + aContent;
                             } else {
@@ -103,10 +103,19 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                                     }
 
                                 }
+                             
+                             
+                             
                             }
                             contentDocumentbody.innerHTML = aContent;
                             if (contentDocumentbody.children.ReadBtn) contentDocumentbody.children.ReadBtn.remove();
                             if (contentDocumentbody.children.ReproduceBtn) contentDocumentbody.children.ReproduceBtn.remove();
+                          
+                           let mathspan=contentDocumentbody.querySelectorAll("[class*='MathJax']");                              
+                              mathspan.forEach(function(ele){
+                               let innerText= ele.innerText;
+                               ele.outerHTML="<span>"+innerText+"</span>";
+                              });
                         }
                         //if(document.getElementById("selType"))document.getElementById("selType").value="2";
                          if (document.getElementsByClassName("textfield")) document.getElementsByClassName("textfield")[0].options[2].selected = true;
