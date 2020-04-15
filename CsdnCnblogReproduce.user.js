@@ -110,12 +110,16 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                             contentDocumentbody.innerHTML = aContent;
                             if (contentDocumentbody.children.ReadBtn) contentDocumentbody.children.ReadBtn.remove();
                             if (contentDocumentbody.children.ReproduceBtn) contentDocumentbody.children.ReproduceBtn.remove();
-                          
-                           let mathspan=contentDocumentbody.querySelectorAll("[class*='MathJax']");                              
-                              mathspan.forEach(function(ele){
+                            let mathspace=contentDocumentbody.querySelectorAll("[width*='thickmathspace']");                              
+                              mathspace.forEach(function(ele){
+                               ele.outerHTML=" ";
+                              });
+                            let mathspan=contentDocumentbody.querySelectorAll("[class*='MathJax']");                              
+                            mathspan.forEach(function(ele){
                                let innerText= ele.innerText;
                                ele.outerHTML="<span>"+innerText+"</span>";
                               });
+                            
                         }
                         //if(document.getElementById("selType"))document.getElementById("selType").value="2";
                          if (document.getElementsByClassName("textfield")) document.getElementsByClassName("textfield")[0].options[2].selected = true;
