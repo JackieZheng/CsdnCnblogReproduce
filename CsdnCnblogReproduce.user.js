@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         CSDN,CNBLOG博客文章一键转载插件
-// @version      4.0.1
+// @version      4.0.2
 // @description  CSDN博客文章转载插件 可以实现CSDN上的文章一键转载
 // @author       By Jackie http://csdn.admans.cn/
 // @match        *://blog.csdn.net/*/article/details/*
@@ -88,12 +88,12 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                                         var codeTag = window.opener.document.getElementsByTagName('pre')[i];
                                         if(codeTag){
                                             if(codeTag.querySelector("ul[class*='pre-numbering']")){
-                                             codeTag.querySelector("ul[class*='pre-numbering']").remove();
+                                                codeTag.querySelector("ul[class*='pre-numbering']").remove();
                                             }
                                             var eles = codeTag.getElementsByTagName('li');
                                             if (eles.length > 0) {
                                                 for (var j = 0; j < eles.length; j++) {
-                                                    preText += eles[j].innerText;
+                                                    preText += eles[j].innerText+"\n";
                                                 }
                                             } else {
                                                 preText += codeTag.innerText;
@@ -110,22 +110,22 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                             if (contentDocumentbody.children.ReadBtn) contentDocumentbody.children.ReadBtn.remove();
                             if (contentDocumentbody.children.ReproduceBtn) contentDocumentbody.children.ReproduceBtn.remove();
                             let mathspace=contentDocumentbody.querySelectorAll("[width*='thickmathspace']");
-                              mathspace.forEach(function(ele){
-                               ele.outerHTML=" ";
-                              });
+                            mathspace.forEach(function(ele){
+                                ele.outerHTML=" ";
+                            });
                             let mathspan=contentDocumentbody.querySelectorAll("[class*='MathJax']");
                             mathspan.forEach(function(ele){
-                               let innerText= ele.innerText;
-                               ele.outerHTML="<span>"+innerText+"</span>";
-                              });
+                                let innerText= ele.innerText;
+                                ele.outerHTML="<span>"+innerText+"</span>";
+                            });
                         }
                         if (document.querySelector("[class^='el-input__inner']")) document.querySelector("[class^='el-input__inner']").value = window.opener.location.href.split('?')[0];
-                         if (document.querySelector("[class^='el-checkbox__original']")) document.querySelector("[class^='el-checkbox__original']").checked = true;
-                         if(document.querySelectorAll("[class*='copyright-box']").length>0)
-                         {
-                           document.querySelectorAll("[class*='copyright-box']")[0].style.display="";
-                           document.querySelectorAll("[class*='copyright-box']")[1].style.display="";
-                         }
+                        if (document.querySelector("[class^='el-checkbox__original']")) document.querySelector("[class^='el-checkbox__original']").checked = true;
+                        if(document.querySelectorAll("[class*='copyright-box']").length>0)
+                        {
+                            document.querySelectorAll("[class*='copyright-box']")[0].style.display="";
+                            document.querySelectorAll("[class*='copyright-box']")[1].style.display="";
+                        }
 
                         var htmlContent = blogContent.replace(/<ul class=\"pre-numbering\"[\s\S].*<\/ul>/g, '');
                         htmlContent = htmlContent.replace(/<div class=\"cnblogs_code_toolbar\"[\s\S].*?<\/div>/g, '');
@@ -135,9 +135,9 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                         htmlContent = htmlContent.replace(/<div class=\"line[\s\S].*>\d+?<\/div>/g, '');
                         var turndownService = new TurndownService();
                         var mdContent = turndownService.turndown(htmlContent);
-console.log(mdContent);
+                        console.log(mdContent);
                         var csdnMDeditor=document.getElementsByClassName("editor__inner");
-                        if (csdnMDeditor) {
+                        if (csdnMDeditor.length>0) {
                             csdnMDeditor[0].innerHTML=mdContent;
                         }
                         var cnblogsMDeditor = document.getElementById("Editor_Edit_EditorBody");
@@ -151,8 +151,8 @@ console.log(mdContent);
                                     if (document.querySelector("[class^='el-checkbox__original']")) document.querySelector("[class^='el-checkbox__original']").checked = true;
                                     if(document.querySelectorAll("[class*='copyright-box']"))
                                     {
-                                      document.querySelectorAll("[class*='copyright-box']")[0].style.display="";
-                                      document.querySelectorAll("[class*='copyright-box']")[1].style.display="";
+                                        document.querySelectorAll("[class*='copyright-box']")[0].style.display="";
+                                        document.querySelectorAll("[class*='copyright-box']")[1].style.display="";
                                     }
                                 }
                             }
@@ -160,7 +160,7 @@ console.log(mdContent);
 
                     }
                 },
-                3000);
+                           3000);
 
             }
         }
