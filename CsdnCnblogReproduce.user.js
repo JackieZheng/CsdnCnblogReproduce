@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         CSDN,CNBLOG博客文章一键转载插件
-// @version      4.0.2
+// @version      4.0.3
 // @description  CSDN博客文章转载插件 可以实现CSDN上的文章一键转载
 // @author       By Jackie http://csdn.admans.cn/
 // @match        *://blog.csdn.net/*/article/details/*
@@ -20,6 +20,7 @@
 // @grant    GM_addStyle
 // @namespace https://greasyfork.org/users/164689
 // @supportURL   https://github.com/JackieZheng/CsdnCnblogReproduce/issues/
+// @icon         https://www.google.cn/s2/favicons?domain=csdn.net
 // ==/UserScript==
 GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: auto;background: #0f962191;z-index: 9999;color: white;text-align: center;margin: 5px;padding: 5px;border-radius: 5px;cursor: pointer;line-height: 100%;}"); (function() {
     'use strict';
