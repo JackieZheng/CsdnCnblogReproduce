@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         CSDN,CNBLOG博客文章一键转载插件
-// @version      4.0.3
+// @version      4.0.4
 // @description  CSDN博客文章转载插件 可以实现CSDN上的文章一键转载
 // @author       By Jackie http://csdn.admans.cn/
 // @match        *://blog.csdn.net/*/article/details/*
@@ -64,7 +64,7 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
                         } else if (window.opener.document.getElementById('author_profile_detail')) {
                             authorName = window.opener.document.getElementById('author_profile_detail').childNodes[1].innerText;
                         }
-                        var blogContent = (window.opener.document.getElementById('content_views') || window.opener.document.getElementById('cnblogs_post_body')).innerHTML + "<br>---------------------" + "<br>作者：" + authorName + "<br>来源：" + (cnblog == true ? "CNBLOGS": "CSDN") + "<br>原文：" + window.opener.location.href + "<br>版权声明：本文为作者原创文章，转载请附上博文链接！" + "<br>内容解析By：<a href=https://greasyfork.org/zh-CN/scripts/381053-csdn-cnblog%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E4%B8%80%E9%94%AE%E8%BD%AC%E8%BD%BD%E6%8F%92%E4%BB%B6 target=_blank>CSDN,CNBLOG博客文章一键转载插件</a>";
+                        var blogContent = (window.opener.document.getElementById('content_views') || window.opener.document.getElementById('cnblogs_post_body')).innerHTML + "<br>---------------------" + "<br>作者：" + authorName + "<br>来源：" + (cnblog == true ? "CNBLOGS": "CSDN") + "<br>原文：" + window.opener.location.href.split('?')[0] + "<br>版权声明：本文为作者原创文章，转载请附上博文链接！" + "<br>内容解析By：<a href=https://greasyfork.org/zh-CN/scripts/381053-csdn-cnblog%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E4%B8%80%E9%94%AE%E8%BD%AC%E8%BD%BD%E6%8F%92%E4%BB%B6 target=_blank>CSDN,CNBLOG博客文章一键转载插件</a>";
                         var input_title = (document.getElementById('txtTitle') || document.getElementById('Editor_Edit_txbTitle') || document.querySelector('input.cnb-input'))||document.getElementsByClassName("article-bar__title")[0];
                         if (input_title) {
                             var aTitle = "[转]" + window.opener.document.title.split('_')[0];
@@ -104,7 +104,7 @@ GM_addStyle("#ReproduceBtn{position: absolute;float: right;right: 0px;width: aut
 
                                         aContent = aContent.replace(arrMactches[i], preCodeHtml);
                                     }
-
+                                    aContent = "(转载请删除括号里的内容)" + aContent;
                                 }
                             }
                             contentDocumentbody.innerHTML = aContent;
