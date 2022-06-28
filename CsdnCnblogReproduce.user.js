@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         CSDN,CNBLOG博客文章一键转载插件
-// @version      4.1.1
+// @version      4.1.2
 // @description  CSDN博客文章转载插件 可以实现CSDN上的文章一键转载
 // @author       By Jackie http://csdn.admans.cn/
 // @match        *://blog.csdn.net/*/article/details/*
@@ -16,6 +16,7 @@
 // @match        *://i-beta.cnblogs.com/posts/edit?opt=1
 // @match        *://mp.csdn.net/mp_blog/creation/editor?opt=1
 // @match        *://editor.csdn.net/md/?not_checkout=1
+// @match        *://mp.csdn.net/mp_blog/creation/editor?*
 // @require      https://unpkg.com/turndown/dist/turndown.js
 // @grant    GM_addStyle
 // @namespace https://greasyfork.org/users/164689
@@ -194,4 +195,3 @@ GM_addStyle(".tag__box div.tag__options-content{height: auto !important;}");
     }
 
 })();
-
