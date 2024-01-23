@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         CSDN,CNBLOG博客文章一键转载插件
-// @version      4.1.3
+// @version      4.1.4
 // @description  CSDN博客文章转载插件 可以实现CSDN上的文章一键转载
 // @author       By Jackie http://csdn.admans.cn/
 // @match        *://blog.csdn.net/*/article/details/*
@@ -8,6 +8,7 @@
 // @match        *://mp.csdn.net/postedit?opt=1
 // @match        *://mp.csdn.net/console/editor/html?opt=1
 // @match        *://www.cnblogs.com/*/p/*.html
+// @match        *://www.cnblogs.com/*/p/*
 // @match        *://www.cnblogs.com/*/articles/*.html
 // @match        *://www.cnblogs.com/*/archive/*/*/*/*.html
 // @match        *://*.blog.csdn.net/article/details/*
