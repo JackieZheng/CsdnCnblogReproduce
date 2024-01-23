@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         CSDN,CNBLOG博客文章一键转载插件
-// @version      4.1.2
+// @version      4.1.3
 // @description  CSDN博客文章转载插件 可以实现CSDN上的文章一键转载
 // @author       By Jackie http://csdn.admans.cn/
 // @match        *://blog.csdn.net/*/article/details/*
@@ -11,10 +11,13 @@
 // @match        *://www.cnblogs.com/*/articles/*.html
 // @match        *://www.cnblogs.com/*/archive/*/*/*/*.html
 // @match        *://*.blog.csdn.net/article/details/*
+// @match        *://*.cnblogs.com/*/p/*.html
+// @match        *://www.cnblogs.com/*/p/*.html
 // @match        *://i.cnblogs.com/EditArticles.aspx?opt=1
 // @match        *://i.cnblogs.com/EditPosts.aspx?opt=1
 // @match        *://i-beta.cnblogs.com/posts/edit?opt=1
 // @match        *://mp.csdn.net/mp_blog/creation/editor?opt=1
+// @match        *://i.cnblogs.com/posts/edit?opt=1
 // @match        *://editor.csdn.net/md/?not_checkout=1
 // @match        *://mp.csdn.net/mp_blog/creation/editor?*
 // @require      https://unpkg.com/turndown/dist/turndown.js
